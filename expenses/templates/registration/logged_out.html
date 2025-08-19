@@ -1,0 +1,5 @@
+{% extends 'expenses/base.html' %}
+{% block content %}
+<div class="alert alert-info mt-4">You have been logged out.</div>
+<a href="{% url 'expense_list' %}" class="btn btn-primary">Go to Home</a>
+{% endblock %}

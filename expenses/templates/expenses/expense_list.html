@@ -1,0 +1,43 @@
+{% extends 'expenses/base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+  <a href="{% url 'add_expense' %}" class="btn btn-success" id="add-expense-btn">Add Expense</a>
+  <a href="{% url 'expense_filter' %}" class="btn btn-info">Filter Expenses</a>
+</div>
+{% if not user.is_authenticated %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var addBtn = document.getElementById('add-expense-btn');
+    addBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      var choice = confirm('Add expense as guest? Click OK for guest, Cancel to login/register.');
+      if (choice) {
+        window.location.href = '{% url "add_expense" %}?guest=1';
+      } else {
+        window.location.href = '{% url "login" %}';
+      }
+    });
+  });
+</script>
+{% endif %}
+{% if expenses %}
+  {% for expense in expenses %}
+    <div class="card expense-card">
+      <div class="card-body">
+        <h5 class="card-title">{{ expense.title }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ expense.date }} | {{ expense.category }}</h6>
+        <p class="card-text">{{ expense.amount }}<br>{{ expense.description }}</p>
+        {% if expense.id %}
+          <a href="{% url 'edit_expense' expense.id %}" class="btn btn-primary btn-sm">Edit</a>
+          <a href="{% url 'delete_expense' expense.id %}" class="btn btn-danger btn-sm">Delete</a>
+        {% else %}
+          <a href="{% url 'edit_guest_expense' forloop.counter0 %}" class="btn btn-primary btn-sm">Edit</a>
+          <a href="{% url 'delete_guest_expense' forloop.counter0 %}" class="btn btn-danger btn-sm">Delete</a>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+{% else %}
+  <div class="alert alert-info">No expenses found.</div>
+{% endif %}
+{% endblock %}

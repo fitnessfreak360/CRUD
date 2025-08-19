@@ -15,7 +15,3 @@ This is a Django-based expense tracker website. The project was initialized usin
 - `ExpenseTracker/` - Main Django project folder
 - `manage.py` - Django management script
 
-## Next Steps
-- Create an expense app
-- Add models for expenses
-- Build views and templates for tracking expenses
